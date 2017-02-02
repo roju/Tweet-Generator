@@ -1,27 +1,33 @@
 import re
-import collections
 
 
 def histogram(text):
     regex = re.compile('\w+')
-    words = list()
+    histogram = {}
 
     for line in text:
         words_in_line = regex.findall(line)
         for word in words_in_line:
-            words.append(word)
+            if word in histogram:
+                histogram[word] += 1
+            else:
+                histogram[word] = 1
 
-    return collections.Counter(words)
+    return histogram
 
 
 def unique_words(histogram):
     return len(histogram)
 
+
 def frequency(word, histogram):
-    return histogram.get(word)
+    if word in histogram:
+        return histogram.get(word)
+    else:
+        return 0
 
 
 if __name__ == '__main__':
     text = open('huckfinn.txt', 'r')
 
-    print(frequency("was", histogram(text)))
+    print(histogram(text))
