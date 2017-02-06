@@ -21,13 +21,15 @@ def unique_words(histogram):
 
 
 def frequency(word, histogram):
-    if word in histogram:
-        return histogram.get(word)
-    else:
-        return 0
+    return histogram.get(word, 0)
+
+
+def print_sorted_histogram(histogram):
+    for w in sorted(histogram, key=histogram.get, reverse=True):
+        print(w, histogram[w])
 
 
 if __name__ == '__main__':
     text = open('huckfinn.txt', 'r')
 
-    print(histogram(text))
+    print_sorted_histogram(histogram(text))
