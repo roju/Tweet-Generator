@@ -2,7 +2,7 @@ import random
 import re
 
 
-def random_word_weighted(histogram):
+def random_word_weighted_shitty(histogram):
     weighted_id_list = list()
     word_id = 0
 
@@ -11,14 +11,25 @@ def random_word_weighted(histogram):
             weighted_id_list.append(word_id)
         word_id += 1
 
-    random_index = random.randint(0, len(weighted_id_list))
+    random_index = random.randint(0, len(weighted_id_list) - 1)
     random_word_id = weighted_id_list[random_index]
 
     return histogram[random_word_id][0]
 
 
+def random_word_weighted(histogram):
+    words_count = sum(histogram.values())
+    index = random.randint(1, words_count)
+    count = 0
+
+    for key in histogram:
+        count += histogram[key]
+        if count >= index:
+            return key
+
+
 def random_word_unweighted(histogram):
-    return random.choice(histogram)[0]
+    return random.choice(histogram.values())[0]
 
 
 def histogram(text):
@@ -33,7 +44,7 @@ def histogram(text):
             else:
                 histogram[word] = 1
 
-    return histogram.items()
+    return histogram
 
 
 if __name__ == '__main__':
