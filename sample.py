@@ -18,8 +18,8 @@ def random_word_weighted_shitty(histogram):
 
 
 def random_word_weighted(histogram):
-    words_count = sum(histogram.values())
-    index = random.randint(1, words_count)
+    words_in_original_text = sum(histogram.values())
+    index = random.randint(1, words_in_original_text)
     count = 0
 
     for key in histogram:
@@ -28,8 +28,13 @@ def random_word_weighted(histogram):
             return key
 
 
-def random_word_unweighted(histogram):
-    return random.choice(histogram.values())[0]
+def random_sentence(histogram, word_count):
+    sentence = ""
+
+    for _ in range(0, word_count):
+        sentence += random_word_weighted(histogram) + " "
+
+    return sentence
 
 
 def histogram(text):
@@ -50,4 +55,4 @@ def histogram(text):
 if __name__ == '__main__':
     text = open('huckfinn.txt', 'r')
 
-    print(random_word_weighted(histogram(text)))
+    print(random_sentence(histogram(text), 10))
