@@ -1,6 +1,7 @@
 import sys
 import random
 
+
 class Dictogram(dict):
 
     def __init__(self, iterable=None):
@@ -24,7 +25,7 @@ class Dictogram(dict):
         return self.get(item, 0)
         pass
 
-    def return_random_word(self):
+    def random_word(self):
         # Another way:  Should test: random.choice(histogram.keys())
         random_key = random.sample(self, 1)
         return random_key[0]
@@ -41,18 +42,18 @@ class Dictogram(dict):
                 return key
 
 
-def markov_model(data):
+def markov_model(text):
     markov_model = {}
 
-    for i in range(0, len(data)-1):
-        if data[i] in markov_model:
+    for word in range(0, len(text)-1):
+        if text[word] in markov_model:
             # We have to just append to the existing histogram
-            markov_model[data[i]].update([data[i+1]])
+            markov_model[text[word]].update([text[word+1]])
         else:
-            markov_model[data[i]] = Dictogram([data[i+1]])
+            markov_model[text[word]] = Dictogram([text[word+1]])
     return markov_model
 
 
 if __name__ == '__main__':
-    d = Dictogram(sys.argv[1:])
+    d = markov_model(sys.argv[1:])
     print(d)
