@@ -34,6 +34,11 @@ class HashTable(object):
     def values(self):
         """Return a list of all values in this hash table"""
         # TODO: Collect all values in each of the buckets
+        all_values = []
+        for bucket in self.buckets:
+            for key, value in bucket.items():
+                all_values.append(value)
+        return all_values
         pass
 
     def items(self):
@@ -47,21 +52,38 @@ class HashTable(object):
     def length(self):
         """Return the length of this hash table by traversing its buckets"""
         # TODO: Count number of key-value entries in each of the buckets
-        return 0
+        length = 0
+        for bucket in self.buckets:
+            length += 1
+        return length
 
     def contains(self, key):
         """Return True if this hash table contains the given key, or False"""
         # TODO: Check if the given key exists in a bucket
+        for bucket in self.buckets:
+            for bucket_key, value in bucket.items():
+                if bucket_key == key:
+                    return True
+        return False
         pass
 
     def get(self, key):
         """Return the value associated with the given key, or raise KeyError"""
         # TODO: Check if the given key exists and return its associated value
+        for bucket in self.buckets:
+            for bucket_key, value in bucket:
+                if bucket_key == key:
+                    return value
+        raise KeyError('Key not found')
         pass
 
     def set(self, key, value):
         """Insert or update the given key with its associated value"""
         # TODO: Insert or update the given key-value entry into a bucket
+        for bucket in self.buckets:
+            for bucket_key, bucket_value in bucket:
+                if bucket_key == key:
+                    return 0
         pass
 
     def delete(self, key):
