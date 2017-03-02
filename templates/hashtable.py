@@ -25,19 +25,23 @@ class HashTable(object):
     def keys(self):
         """Return a list of all keys in this hash table"""
         # Collect all keys in each of the buckets
-        all_keys = []
-        for bucket in self.buckets:
-            for key, value in bucket.items():
-                all_keys.append(key)
+
+        # O(bl) = O(n)
+        all_keys = []  # O(1)
+        for bucket in self.buckets:  # b iterations
+            for key, value in bucket.items():  # l = n/b iterations
+                all_keys.append(key)  # O(1)
         return all_keys
 
     def values(self):
         """Return a list of all values in this hash table"""
         # TODO: Collect all values in each of the buckets
-        all_values = []
-        for bucket in self.buckets:
-            for key, value in bucket.items():
-                all_values.append(value)
+
+        #  l = n/b (load factor, avg length of linked list)
+        all_values = []  # O(1)
+        for bucket in self.buckets:  # O(b)
+            for key, value in bucket.items():  # O(l)
+                all_values.append(value)  # O(1)
         return all_values
         pass
 
@@ -71,7 +75,7 @@ class HashTable(object):
         """Return the value associated with the given key, or raise KeyError"""
         # TODO: Check if the given key exists and return its associated value
         for bucket in self.buckets:
-            for bucket_key, value in bucket:
+            for bucket_key, value in bucket.items():
                 if bucket_key == key:
                     return value
         raise KeyError('Key not found')
@@ -80,10 +84,14 @@ class HashTable(object):
     def set(self, key, value):
         """Insert or update the given key with its associated value"""
         # TODO: Insert or update the given key-value entry into a bucket
-        for bucket in self.buckets:
-            for bucket_key, bucket_value in bucket:
-                if bucket_key == key:
-                    return 0
+        index = self._bucket_index[key]
+        bucket = self.buckets[index]
+
+        tup = bucket.find(lambda tup: tup[0] == key)
+        if tup is not None:
+            bucket.delete(tup)
+        tup = (key, value)
+        bucket.append(tup)
         pass
 
     def delete(self, key):
